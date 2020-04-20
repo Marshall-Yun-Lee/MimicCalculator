@@ -63,8 +63,6 @@ enum Operations  {
         case .minus: return "-"
         case .multiply: return "*"
         case .divide: return "/"
-        default:
-            return "nil"
         }
     }
 }
@@ -74,10 +72,10 @@ let numberList: [String] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".
 
 struct ContentView: View {
     // User input data
-    @State var currentResult: String = "0";
-    @State var previousInput: Float = 0;
-    @State var currentOperation: Operations? = nil;
-    @State var isNegative: Bool = false;
+    @State var currentResult: String = "0"
+    @State var previousInput: Float = 0
+    @State var currentOperation: Operations? = nil
+    @State var isNegative: Bool = false
     
     // button list
     let buttons: [[CalcButton]] = [
@@ -189,7 +187,7 @@ struct ContentView: View {
         currentResult = "0"
         previousInput = 0
         currentOperation = nil
-        isNegative = false;
+        isNegative = false
     }
     
     /**
@@ -233,7 +231,7 @@ struct ContentView: View {
         } else { // current input is positive
             previousInput = Float(currentResult) ?? 0
         }
-        isNegative = false;
+        isNegative = false
         currentResult = "0"
         
         // perform operation if there is an existing operation
@@ -252,10 +250,10 @@ struct ContentView: View {
     private func _performOperations(operation: Operations?) -> Void {
         if operation == nil {
             print("current operation is unknown")
-            return;
+            return
         } else {
-            let current: Float = Float(currentResult) ?? 0;
-            let previous: Float = previousInput;
+            let current: Float = Float(currentResult) ?? 0
+            let previous: Float = previousInput
             
             switch operation {
             case .plus:      currentResult = String(previous + current)
