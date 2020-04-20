@@ -125,7 +125,7 @@ struct ContentView: View {
      returns button width based on the screen size
      screen width - 10px margin * 5 each / 4 buttons
      */
-    func _calcButtonWidth() -> CGFloat {
+    private func _calcButtonWidth() -> CGFloat {
         return (UIScreen.main.bounds.width - 5 * 10) / 4
     }
     
@@ -140,7 +140,7 @@ struct ContentView: View {
     /**
      This handles button clicks
      */
-    func _handleUserInput(clicked: CalcButton) {
+    public func _handleUserInput(clicked: CalcButton) -> Void {
         if self._isNumberButton(button: clicked) {
             if currentResult == "0" || currentResult == "0.0" || currentResult == ".0" {
                 self.currentResult = clicked.title
