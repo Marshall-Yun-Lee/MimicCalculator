@@ -9,35 +9,64 @@
 import XCTest
 
 class MimicCalculatorUITests: XCTestCase {
+    let app = XCUIApplication()
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
-        continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
+    func testUI() throws {
         app.launch()
-
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        validateButton(key: "0")
+        XCTAssertTrue(app.staticTexts["0"].exists)
+        validateButton(key: "1")
+        XCTAssertTrue(app.staticTexts["1"].exists)
+        validateButton(key: "2")
+        XCTAssertTrue(app.staticTexts["12"].exists)
+        validateButton(key: "3")
+        XCTAssertTrue(app.staticTexts["123"].exists)
+        validateButton(key: "4")
+        XCTAssertTrue(app.staticTexts["1234"].exists)
+        validateButton(key: "5")
+        XCTAssertTrue(app.staticTexts["12345"].exists)
+        validateButton(key: "6")
+        XCTAssertTrue(app.staticTexts["123456"].exists)
+        validateButton(key: "7")
+        XCTAssertTrue(app.staticTexts["1234567"].exists)
+        validateButton(key: "8")
+        XCTAssertTrue(app.staticTexts["12345678"].exists)
+        validateButton(key: "9")
+        XCTAssertTrue(app.staticTexts["123456789"].exists)
+        
+        validateButton(key: "AC")
+        XCTAssertTrue(app.staticTexts["0"].exists)
+        
+        app.buttons["1"].tap()
+        validateButton(key: "+")
+        app.buttons["1"].tap()
+        validateButton(key: "=")
+        XCTAssertTrue(app.staticTexts["2.0"].exists)
+        
+        validateButton(key: "-")
+        app.buttons["1"].tap()
+        app.buttons["="].tap()
+        XCTAssertTrue(app.staticTexts["1.0"].exists)
+        
+        validateButton(key: "X")
+        app.buttons["5"].tap()
+        app.buttons["="].tap()
+        XCTAssertTrue(app.staticTexts["5.0"].exists)
+        
+        validateButton(key: "/")
+        app.buttons["5"].tap()
+        app.buttons["="].tap()
+        XCTAssertTrue(app.staticTexts["1.0"].exists)
+        
+        validateButton(key: "%")
+        XCTAssertTrue(app.staticTexts["0.01"].exists)
+        
+        validateButton(key: "+/-")
+        XCTAssertTrue(app.staticTexts["-0.01"].exists)
     }
-
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTOSSignpostMetric.applicationLaunch]) {
-                XCUIApplication().launch()
-            }
-        }
+    
+    private func validateButton(key: String) {
+        XCTAssertTrue(app.buttons[key].exists)
+        app.buttons[key].tap()
     }
 }
