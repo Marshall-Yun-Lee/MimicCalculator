@@ -17,6 +17,7 @@
 		30557226244C088D001E091D /* MimicCalculatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30557225244C088D001E091D /* MimicCalculatorUITests.swift */; };
 		30557235244C3801001E091D /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30557234244C3801001E091D /* Stack.swift */; };
 		30557237244CFE7A001E091D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30557236244CFE7A001E091D /* Logger.swift */; };
+		306AFA022453D48A00352779 /* calc.png in Resources */ = {isa = PBXBuildFile; fileRef = 306AFA012453D48A00352779 /* calc.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		30557227244C088D001E091D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30557234244C3801001E091D /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		30557236244CFE7A001E091D /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		306AFA012453D48A00352779 /* calc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = calc.png; path = ../../../Desktop/calc.png; sourceTree = "<group>"; };
+		306AFA032453EBC300352779 /* Demo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = Demo.mp4; path = ../../../Downloads/Demo.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +86,7 @@
 		305571F7244C088C001E091D = {
 			isa = PBXGroup;
 			children = (
+				306AFA002453D47C00352779 /* Demo */,
 				30557202244C088C001E091D /* MimicCalculator */,
 				30557219244C088D001E091D /* MimicCalculatorTests */,
 				30557224244C088D001E091D /* MimicCalculatorUITests */,
@@ -148,6 +152,15 @@
 				30557236244CFE7A001E091D /* Logger.swift */,
 			);
 			path = util;
+			sourceTree = "<group>";
+		};
+		306AFA002453D47C00352779 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				306AFA032453EBC300352779 /* Demo.mp4 */,
+				306AFA012453D48A00352779 /* calc.png */,
+			);
+			path = Demo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,6 +270,7 @@
 				30557210244C088D001E091D /* LaunchScreen.storyboard in Resources */,
 				3055720D244C088D001E091D /* Preview Assets.xcassets in Resources */,
 				3055720A244C088D001E091D /* Assets.xcassets in Resources */,
+				306AFA022453D48A00352779 /* calc.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
