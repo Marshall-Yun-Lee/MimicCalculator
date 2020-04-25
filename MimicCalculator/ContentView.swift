@@ -9,6 +9,7 @@
 import SwiftUI
 import Foundation
 
+
 // button information
 enum CalcButton: String {
     case zero, one, two, three, four, five, six, seven, eight, nine, decimal
@@ -76,6 +77,7 @@ struct ContentView: View {
     @State var previousInput: Float = 0
     @State var currentOperation: Operations? = nil
     @State var isNegative: Bool = false
+    @State var isDecimalAdded: Bool = false
     
     // button list
     let buttons: [[CalcButton]] = [
@@ -131,8 +133,7 @@ struct ContentView: View {
      return 70 white Text with the given string
      */
     private func _drawOutput(input: String) -> Text {
-        return isNegative ? Text("-" + input).foregroundColor(Color.white).font(.system(size: 70))
-                                : Text(input).foregroundColor(Color.white).font(.system(size: 70))
+        return Text(input).foregroundColor(Color.white).font(.system(size: 70))
     }
     
     /**
@@ -140,10 +141,19 @@ struct ContentView: View {
      */
     public func _handleUserInput(clicked: CalcButton) -> Void {
         if self._isNumberButton(button: clicked) {
-            if currentResult == "0" || currentResult == "0.0" || currentResult == ".0" {
-                self.currentResult = clicked.title
-            } else if currentOperation != nil {
-                currentResult += clicked.title
+            if currentResult == "0" || currentResult == "-0" {
+                if clicked.title == "." {
+                    self.currentResult += clicked.title
+                } else {
+                    if  currentResult == "-0" {
+                        self.currentResult = clicked.title
+                        self.currentResult = "-" + self.currentResult
+                    } else {
+                        self.currentResult = clicked.title
+                    }
+                }
+            } else if currentResult.contains(".") && clicked.title == "." {
+                // ignore
             } else {
                 self.currentResult += clicked.title
             }
@@ -201,6 +211,11 @@ struct ContentView: View {
     this handles +/- input (invert sign)
      */
     private func _handlePlusMinus() -> Void {
+        if !isNegative {
+            currentResult = "-" + currentResult
+        } else {
+            currentResult = String(currentResult.dropFirst(1))
+        }
         isNegative = !isNegative
     }
     
@@ -208,7 +223,7 @@ struct ContentView: View {
      This handles % input (percentage)
      */
     private func _handlePercentage() -> Void {
-        currentResult = String((Float(currentResult) ?? 0) / 100.0)
+        currentResult = self._convertToPrint(number: (Float(currentResult) ?? 0) / 100.0)
     }
     
     /**
@@ -226,16 +241,11 @@ struct ContentView: View {
      This handles calculations based on the given operation
      */
     private func _handleOperations(operation: Operations) -> Void {
-        if isNegative { // current input is negative
-            previousInput = (Float(currentResult) ?? 0) * -1
-        } else { // current input is positive
-            previousInput = Float(currentResult) ?? 0
-        }
-        isNegative = false
-        currentResult = "0"
+        previousInput = Float(currentResult) ?? 0
+        
         
         // perform operation if there is an existing operation
-        if (currentResult != "0" || currentResult != "0.0" || currentResult != ".0") && previousInput != 0 {
+        if currentResult != "0" && previousInput != 0 {
             if currentOperation != nil {
                 self._performOperations(operation: currentOperation)
             } else {
@@ -244,6 +254,9 @@ struct ContentView: View {
         }
         // override the operation with new one
         currentOperation = operation
+        previousInput = Float(currentResult) ?? 0
+        isNegative = false
+        currentResult = "0"
     }
     
     // this performs arithmetic operation provided
@@ -256,19 +269,13 @@ struct ContentView: View {
             let previous: Float = previousInput
             
             switch operation {
-            case .plus:      currentResult = String(previous + current)
-            case .minus:     currentResult = String(previous - current)
-            case .multiply: currentResult = String(previous * current)
-            case .divide:   currentResult = String(previous / current)
+            case .plus:      currentResult = self._convertToPrint(number: (previous + current))
+            case .minus:     currentResult = self._convertToPrint(number: (previous - current))
+            case .multiply: currentResult = self._convertToPrint(number: (previous * current))
+            case .divide:   currentResult = self._convertToPrint(number: (previous / current))
             default:
                 print("Unable to recognize the given arithmetic operation")
             }
-        }
-        if currentResult.first == "-" {
-            isNegative = true
-            currentResult = String(currentResult[currentResult.index(after: currentResult.startIndex)..<currentResult.endIndex])
-        } else {
-            isNegative = false
         }
         previousInput = 0
         currentOperation = nil
@@ -282,6 +289,18 @@ struct ContentView: View {
             self._performOperations(operation: currentOperation)
         }
     }
+    //===================================================
+    
+    //===================== UTIL ========================
+    
+    private func _convertToPrint(number: Float) -> String {// type conversion formatter
+        let format: NumberFormatter = NumberFormatter()
+        format.minimumFractionDigits = 0
+        format.maximumFractionDigits = 6
+        format.numberStyle = .decimal
+        return format.string(from: number as NSNumber) ?? "N/A"
+    }
+    
     //===================================================
 }
 
